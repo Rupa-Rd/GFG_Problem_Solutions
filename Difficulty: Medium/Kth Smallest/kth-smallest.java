@@ -44,48 +44,18 @@ class GFG {
 class Solution {
     public static int kthSmallest(int[] arr, int k) {
         // Your code here
-        mergeSort(arr, 0, arr.length);
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
         
-        return arr[k-1];
-        
-    }
-    public static void mergeSort(int[] A, int s, int e){
-        if(A.length < 2)
-        return;
-        
-        int mid = (s + e) / 2;
-        int[] left = new int[mid];
-        int[] right = new int[e - mid];
-        
-        for(int i = 0; i < mid; i ++){
-            left[i] = A[i];
+        for(int i = 0; i < arr.length; i ++){
+            heap.add(arr[i]);
         }
         
-        for(int i = mid; i < e; i ++){
-            right[i - mid] = A[i];
+        int ans = 0;
+        while(k != 0){
+            ans = heap.remove();
+            k --;
         }
         
-        mergeSort(left, 0, mid);
-        mergeSort(right, mid, e - mid);
-        merge(A, left, right, mid, e - mid);
-    }
-    public static void merge(int[] A, int[] left, int[] right, int n, int m){
-        int i = 0, j = 0, k  = 0;
-        
-        while(i < n && j < m){
-            if(left[i] < right[j]){
-                A[k ++] = left[i ++];
-            }else{
-                A[k ++] = right[j ++];
-            }
-        }
-        
-        while(i < n){
-            A[k ++] = left[i ++];
-        }
-        
-        while(j < m){
-            A[k ++] = right[j ++];
-        }
+        return ans;
     }
 }
