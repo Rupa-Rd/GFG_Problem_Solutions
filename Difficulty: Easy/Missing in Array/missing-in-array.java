@@ -30,31 +30,22 @@ class Solution {
 
     // Note that the size of the array is n-1
     int missingNumber(int n, int arr[]) {
-        
+
         // Your Code Here
-        // Bruteforce : O(n^2)
-        // int missing = -1;
-        // for(int i = 1; i < n; i ++){
-        //     int counter = 0;
-        //     for(int j = 0; j < n-1; j ++){
-        //         if(arr[j] != i){
-        //             counter ++;
-        //         }
-        //     }
-        //     if(counter == n-1)
-        //     return i;
-        // }
-        
-        // return n;
-        
-        // Optimized Solution:
-        Arrays.sort(arr);
-        // System.out.println(Arrays.toString(arr));
-        for(int j = 0; j < n - 1; j ++){
-            if(arr[j] != j + 1)
-            return j + 1;
+        for(int i = 0; i < arr.length; i++){
+            while(arr[i] != i+1 && arr[i] < n){
+                int correctPos = arr[i] - 1;
+                int temp = arr[i];
+                arr[i] = arr[correctPos];
+                arr[correctPos] =  temp;
+            }
         }
-        
+        // System.out.println(Arrays.toString(arr));
+        for(int i = 0; i < n - 1; i++){
+            if(arr[i] != i+1){
+                return i +1 ;
+            }
+        }
         return n;
     }
 }
