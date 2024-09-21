@@ -34,23 +34,47 @@ class Solution {
 
         // Your code here
         // Bruteforce: O(N + M)
-        int[] aChars = new int[26];
-        int[] bChars = new int[26];
+        // int[] aChars = new int[26];
+        // int[] bChars = new int[26];
         
+        // for(char i: a.toCharArray()){
+        //     aChars[i - 'a'] +=1;
+        // }
+        
+        // for(char i: b.toCharArray()){
+        //     bChars[i - 'a'] +=1;
+        // }
+        
+        // for(int j = 0; j < 26; j++){
+        //     if(aChars[j] != bChars[j]){
+        //         return false;
+        //     }
+        // }
+        
+        // return true;
+        
+        // Optimal solution: O(N + M)
+        
+        HashMap<Character, Integer> map = new HashMap<>();
+        if(a.length() != b.length()){
+            return false;
+        }
         for(char i: a.toCharArray()){
-            aChars[i - 'a'] +=1;
+            map.put(i, map.getOrDefault(i, 0) + 1);
         }
         
         for(char i: b.toCharArray()){
-            bChars[i - 'a'] +=1;
-        }
-        
-        for(int j = 0; j < 26; j++){
-            if(aChars[j] != bChars[j]){
+            if(!map.containsKey(i)){
                 return false;
             }
+            map.put(i, map.get(i) - 1);
+            
+            if(map.get(i) == 0){
+                map.remove(i);
+            }
+            
         }
-        
-        return true;
+
+        return map.isEmpty();
     }
 }
