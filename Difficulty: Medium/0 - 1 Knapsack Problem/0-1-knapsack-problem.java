@@ -47,31 +47,20 @@ class gfg {
 class Solution {
     // Function to return max value that can be put in knapsack of capacity W.
     static int knapSack(int W, int wt[], int val[]) {
-        // your code here
-        int n = val.length;
-        int dp[][] = new int[n][W + 1];
+        // Recursive solution
+        int n = wt.length;
         
-        // Base Condition
-        for (int i = wt[0]; i <= W; i++) {
-            dp[0][i] = val[0];
+        return knapsackRecursive(W, wt, val, n);
+    }
+    static int knapsackRecursive(int W, int[] wt, int[] val, int n){
+        if(n == 0 || W == 0)
+            return 0;
+            
+        if(wt[n - 1] <= W){
+            return Math.max(val[n - 1] + knapsackRecursive(W - wt[n - 1], wt, val, n - 1),
+                            knapsackRecursive(W, wt, val, n - 1));
         }
         
-        for (int ind = 1; ind < n; ind++) {
-            for (int cap = 0; cap <= W; cap++) {
-                // Calculate the maximum value when the current item is not taken
-                int notTaken = dp[ind - 1][cap];
-                
-                // Calculate the maximum value when the current item is taken
-                int taken = Integer.MIN_VALUE;
-                if (wt[ind] <= cap) {
-                    taken = val[ind] + dp[ind - 1][cap - wt[ind]];
-                }
-                
-                // Store the maximum value for the current state
-                dp[ind][cap] = Math.max(notTaken, taken);
-            }
-        }
-        
-        return dp[n - 1][W];
+        return knapsackRecursive(W, wt, val, n - 1);
     }
 }
