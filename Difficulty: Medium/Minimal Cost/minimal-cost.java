@@ -9,30 +9,24 @@ import java.util.*;
 // User function Template for Java
 
 class Solution {
-    public int minimizeCost(int k, int heights[]) {
-        // code here
-        int n = heights.length;
-        Map<Integer, Integer> dp = new HashMap<>();
- 
-        // Cost of reaching the first stone is zero
-        dp.put(heights[0], 0);
- 
-        // Loop over the stones and calculate the minimum cost to reach each stone
-        for (int i = 1; i < n; i++) {
-            int minCost = Integer.MAX_VALUE;
- 
-            // Loop over the previous k stones and find the minimum cost to reach the current stone
-            for (int j = i - 1; j >= Math.max(0, i - k); j--) {
-                int cost = dp.get(heights[j]) + Math.abs(heights[i] - heights[j]);
-                minCost = Math.min(minCost, cost);
+    public int minimizeCost(int k, int arr[]) {
+        // Tabulation method: O(N * K), O(N)
+        int n = arr.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        
+        for(int i = 1; i < n; i++){
+            int minSteps = Integer.MAX_VALUE;
+            for(int j = 1; j <= k; j++){
+                if(i - j >= 0){
+                    int singleStep = Math.abs(arr[i] - arr[i - j]) + dp[i - j];
+                    minSteps = Math.min(minSteps, singleStep);
+                }
             }
- 
-            // Store the minimum cost to reach the current stone in the hash table
-            dp.put(heights[i], minCost);
+            dp[i] = minSteps;
         }
- 
-        // Return the minimum cost to reach the last stone
-        return dp.get(heights[n - 1]);
+        return dp[n - 1];
     }
 }
 
