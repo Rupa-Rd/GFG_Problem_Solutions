@@ -14,6 +14,8 @@ class GFG {
 
             Solution ob = new Solution();
             System.out.println(ob.longestCommonSubstr(S1, S2));
+
+            System.out.println("~");
         }
     }
 }
@@ -24,27 +26,25 @@ class GFG {
 
 class Solution {
     public int longestCommonSubstr(String s1, String s2) {
-        int n = s1.length();
-        int m = s2.length();
-
-        // Create a 2D array to store LCS lengths
+        // code here
+        int n = s1.length(), m = s2.length();
         int[][] dp = new int[n + 1][m + 1];
-        int ans = 0; // Initialize a variable to store the maximum LCS length
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                // If the characters at the current indices are the same, extend the LCS
-                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+        
+        
+        int ans = 0;
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= m; j++){
+                if(s1.charAt(i - 1) == s2.charAt(j - 1)){
                     int val = 1 + dp[i - 1][j - 1];
+                    
                     dp[i][j] = val;
-                    ans = Math.max(ans, val); // Update the maximum LCS length
-                } else {
-                    dp[i][j] = 0; // Reset LCS length if characters don't match
+                    ans = Math.max(ans, val);
+                }else{
+                    dp[i][j] = 0;
                 }
             }
         }
-
-        return ans; 
+        
+        return ans;
     }
-   
 }
