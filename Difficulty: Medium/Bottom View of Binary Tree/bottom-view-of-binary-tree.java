@@ -106,7 +106,9 @@ class GfG {
 			    ArrayList <Integer> res = ob.bottomView(root);
 			    for (Integer num : res) System.out.print (num + " ");
 		     	System.out.println();
-	        }
+	        
+System.out.println("~");
+}
 	}
 }
 
@@ -116,75 +118,44 @@ class GfG {
 
 //User function Template for Java
 
-
+class Pair{
+    Node root;
+    Integer distance;
+    Pair(Node root, Integer d){
+        this.root = root;
+        this.distance = d;
+    }
+    
+}
 class Solution
 {
     //Function to return a list containing the bottom view of the given tree.
     public ArrayList <Integer> bottomView(Node root)
     {
-        // Code here
-        if (root == null)
-            return null;
-
-        // Initialize a variable 'hd' with 0 for the root element.
-        int hd = 0;
-
-        // TreeMap which stores key value pair sorted on key value
-        Map<Integer, Integer> map = new TreeMap<>();
-
-         // Queue to store tree nodes in level order traversal
-        Queue<Node> queue = new LinkedList<Node>();
-
-        // Assign initialized horizontal distance value to root
-        // node and add it to the queue.
-        root.hd = hd;
-        queue.add(root);
-
-        // Loop until the queue is empty (standard level order loop)
-        while (!queue.isEmpty())
-        {
-            Node temp = queue.remove();
-
-            // Extract the horizontal distance value from the
-            // dequeued tree node.
-            hd = temp.hd;
-
-            // Put the dequeued tree node to TreeMap having key
-            // as horizontal distance. Every time we find a node
-            // having same horizontal distance we need to replace
-            // the data in the map.
-            map.put(hd, temp.data);
-
-            // If the dequeued node has a left child add it to the
-            // queue with a horizontal distance hd-1.
-            if (temp.left != null)
-            {
-                temp.left.hd = hd-1;
-                queue.add(temp.left);
-            }
-            // If the dequeued node has a right child add it to the
-            // queue with a horizontal distance hd+1.
-            if (temp.right != null)
-            {
-                temp.right.hd = hd+1;
-                queue.add(temp.right);
-            }
-        }
-
-        // Extract the entries of map into a set to traverse
-        // an iterator over that.
-        // Set<Entry<Integer, Integer>> set = map.entrySet();
-
-        // // Make an iterator
-        // Iterator<Entry<Integer, Integer>> iterator = set.iterator();
-
-        ArrayList<Integer> ans = new ArrayList<>();
-        // Traverse the map elements using the iterator.
-        for (Map.Entry<Integer,Integer> me: map.entrySet())
-        {
-            // Map.Entry<Integer, Integer> me = iterator.next();
-            ans.add(me.getValue());
-        }
-        return ans;
+       Map<Integer, Integer> hd = new TreeMap<>();
+       Queue<Pair> q = new LinkedList<>();
+       q.add(new Pair(root, 0));
+       
+       while(!q.isEmpty()){
+           Pair top = q.poll();
+           Node temp = top.root;
+           int dis = top.distance;
+           
+           hd.put(dis, temp.data);
+           
+           if(temp.left != null){
+               q.add(new Pair(temp.left, dis - 1));
+           }
+           if(temp.right != null){
+               q.add(new Pair(temp.right, dis + 1));
+           }
+       }
+       
+       ArrayList<Integer> ans = new ArrayList<>();
+       for(Map.Entry<Integer, Integer> m: hd.entrySet()){
+           ans.add(m.getValue());
+       }
+       
+       return ans;
     }
 }
