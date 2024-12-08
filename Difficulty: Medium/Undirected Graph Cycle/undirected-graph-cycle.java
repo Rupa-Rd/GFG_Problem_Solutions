@@ -38,38 +38,29 @@ class Solution {
     // Function to detect cycle in an undirected graph.
     public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
         // Code here
-        int n = adj.size();
-        boolean[] visited = new boolean[n];
-        
-        for(int i = 0; i < n; i++){
-            if(!visited[i]){
-                if(bfs(i, adj, visited)){
+        int nVertices = adj.size();
+        boolean[] visited = new boolean[nVertices];
+        for(int v = 0; v < nVertices; v++){
+            if(!visited[v])
+                if(dfs(adj, visited, v, -1))
                     return true;
-                }
-            }
         }
         
         return false;
     }
-    public boolean bfs(int source, ArrayList<ArrayList<Integer>> adj, boolean[] visited){
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{source, -1});
-        visited[source] = true;
+    public boolean dfs(ArrayList<ArrayList<Integer>> adj, boolean[] visited, int V, int parent){
+        visited[V] = true;
         
-        while(!q.isEmpty()){
-            int[] top = q.poll();
-            int val = top[0], parent = top[1];
-            
-            for(int neigh: adj.get(val)){
-                if(!visited[neigh]){
-                    visited[neigh] = true;
-                    q.add(new int[]{neigh, val});
-                }else if(parent != neigh){
+        for(int neigh: adj.get(V)){
+            if(!visited[neigh]){
+                if(dfs(adj, visited, neigh, V)){
                     return true;
                 }
             }
+            else if(parent != neigh){
+                return true;
+            }
         }
-        
         return false;
     }
 }
